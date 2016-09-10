@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#ed4333</color>
+    <color name="colorPrimaryDark">#b53125</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWindow">#B53125</color>
+
+    <color name="md_gray_100">#F5F5F5</color>
+    <color name="md_gray_200">#EEEEEE</color>
+    <color name="md_gray_300">#E0E0E0</color>
+    <color name="md_gray_400">#BDBDBD</color>
+    <color name="md_gray_50">#FAFAFA</color>
+    <color name="md_gray_500">#9E9E9E</color>
+    <color name="md_gray_600">#757575</color>
+    <color name="md_gray_700">#616161</color>
+    <color name="md_gray_800">#424242</color>
+    <color name="md_gray_850">#303030</color>
+    <color name="md_gray_900">#212121</color>
+    <color name="bg_gray">#a9b7b7</color>
+    <color name="bg_transprent">#99323232</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 半透明 -->
+    <color name="half_transparent">#88333333</color>
+
+    <!-- 常用颜色值 -->
+    <color name="white40">#40FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#808080</color>
+    <color name="darkgray">#555555</color>
+    <color name="red">#FF0000</color>
+    <color name="gold">#FFD700</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="green">#008000</color>
+    <color name="purple">#800080</color>
+    <color name="pink">#FFC0CB</color>
+    <color name="orange">#FFA500</color>
+    <color name="lemonyellow">#FFFACD</color>
+    <color name="graywhite">#F5F5F5</color>
+    <color name="grayslate">#708090</color>
+
+    <color name="lightblue">#0083FF</color>
+    <color name="skyblue">#56abe4</color>
+    <color name="bgblue">#97FFFF</color>
+    <!-- specific color-->
+    <color name="line_color">#e7e7e7</color>
+    <color name="background_grey">#e7e7e7</color>
+    <color name="tab_bg_white">#f1f0f0</color>
+    <color name="tab_txt_color">#999999</color>
+    <color name="tab_txt_focus_color">#ed4233</color>
+    <color name="processbar_background_color">#ed4b31</color>
+    <color name="txt_gray">#cc222222</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="holo_red_light">#ffff4444</color>
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <color name="holo_green_dark">#ff669900</color>
+    <color name="holo_red_dark">#ffcc0000</color>
+    <color name="text_underline">#f25705</color>
+    <color name="login_red">#ed4333</color>
+    <color name="code_remind">#555555</color>
+
+    <!-- Butoon点击后的颜色-->
+    <color name="login_btn_on">#FFB32F23</color>
+
+    <!--Bundle-->
+    <color name="graybundle">#e0e0e0</color>
+    <color name="graybundle_panel">#f4f4f4</color>
+    <color name="graybundle_dark_text">#1a1a1a</color>
+    <color name="bundle_panel_pre">#ed592c</color>
+
+    <!-- home -->
+    <color name="home_li_title_left_color">#555555</color>
+    <color name="home_li_title_right_top_color">#999898</color>
+    <color name="home_li_title_right_btm_color">#1a1a1a</color>
+    <color name="home_li_title_right_warning_color">#ed4233</color>
+    <color name="home_account_detail_bkg">#d3d1d1</color>
+    <color name="home_li_child_item_bkg">#e7e7e7</color>
+    <color name="home_li_child_item_left_top_color">#555555</color>
+    <color name="home_li_child_item_left_btm_color">#8f8f8f</color>
+    <color name="home_li_child_item_right_top_color">#8f8f8f</color>
+    <color name="home_li_child_item_right_btm_color">#58a810</color>
+    <color name="home_progressbar_bkg">#ffffff</color>
+    <color name="home_progress">#F0402A</color>
+    <color name="home_badge_color">#ec4033</color>
+
+    <!-- 所有输入框 默认的 边框颜色 颜色 -->
+    <color name="common_color_cecece">#cecece</color>
+
+    <!-- app 的主题风格颜色 ,用于背景颜色 ,边框颜色,字体颜色-->
+    <color name="common_color_ed4233">#ed4233</color>
+
+    <!-- app 白色背景 深黑色字体 统一颜色-->
+    <color name="common_color_3f3f3f">#3f3f3f</color>
+    <!-- app 灰色背景 深黑色字体 统一颜色-->
+    <color name="common_color_555555">#555555</color>
+
+    <!-- 通用字体一色灰色 -->
+    <color name="common_color_999898">#999898</color>
+    <!-- 通用背景灰色-->
+    <color name="common_color_e0e0e0">#e0e0e0</color>
+    <!-- listview 通用 divider 颜色-->
+    <color name="common_listview_divider">#e7e7e7</color>
+    <!-- app 通用 深黄色 ，用于 背景色 与 字体颜色-->
+    <color name="common_color_f6a210">#f6a210</color>
+    <!--app GHC 单位 默认 字体 颜色-->
+    <color name="common_color_f25705">#f25705</color>
+
+    <color name="common_color_f2f0f0">#f2f0f0</color>
+
+    <color name="common_color_f3802f">#f3802f</color>
+
+    <color name="common_color_58a810">#58a810</color>
+    <color name="common_color_ececec">#ececec</color>
+    <color name="common_color_ed592c">#ed592c</color>
+
+    <color name="common_wave_border_d3d1d1">#d3d1d1</color>
+
+    <color name="home_navigation_divider">#4b535b</color>
+
+    <color name="home_fragment_window">#CBC6C6</color>
+
+</resources>
+
