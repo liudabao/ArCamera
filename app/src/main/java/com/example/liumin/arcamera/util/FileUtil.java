@@ -8,6 +8,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtil {
 	private static final  String TAG = "FileUtil";
@@ -53,5 +55,27 @@ public class FileUtil {
 
 	}
 
+	//遍历某个目录
+	public static List<String>  getFile(File file) {
+		Log.e("file parent", file.getAbsolutePath());
+		List list = new ArrayList<String>();
+		File[] subFiles = file.listFiles();
+
+		if (subFiles != null) {
+			for (File f : subFiles) {
+				boolean flag = true;
+				if (f.isFile()) {
+					Log.e("file movie", f.getAbsolutePath());
+					String name = f.getName();
+					if (name.trim().toLowerCase().endsWith(".png") || name.trim().toLowerCase().endsWith(".jpg") || name.trim().toLowerCase().endsWith(".jpeg")
+							|| name.trim().toLowerCase().endsWith(".bmp")) {
+
+						list.add(f.getAbsolutePath());
+					}
+				}
+			}
+		}
+		return list;
+	}
 
 }

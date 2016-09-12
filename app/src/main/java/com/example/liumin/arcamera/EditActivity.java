@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
+import com.example.liumin.arcamera.util.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class EditActivity extends Activity {
     //private RecyclerView recyclerView;
     //private LinearLayoutManager linearLayoutManager;
     private String path;
-    private List list;
+    private List<String> list;
    // private MyAdapter mAdapter;
 
 
@@ -42,7 +45,7 @@ public class EditActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_edit);
-        path= getIntent().getStringExtra("PATH");
+       // path= getIntent().getStringExtra("PATH");
         //initData();
         initView();
         initEvent();
@@ -64,10 +67,11 @@ public class EditActivity extends Activity {
        // linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
        // mAdapter = new MyAdapter(this, list);
 
-        if(path!=null){
-            Bitmap bitmap= BitmapFactory.decodeFile(path);
-            imageView.setImageBitmap(bitmap);
-        }
+        showImage();
+       // if(path!=null){
+       //     Bitmap bitmap= BitmapFactory.decodeFile(path);
+       //     imageView.setImageBitmap(bitmap);
+       // }
 
        // recyclerView.setLayoutManager(linearLayoutManager);
       //  recyclerView.setAdapter(mAdapter);
@@ -118,6 +122,7 @@ public class EditActivity extends Activity {
                 if(file.exists()){
                     file.delete();
                 }
+                showImage();
             }
         })
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -157,4 +162,19 @@ public class EditActivity extends Activity {
         oks.show(this);
     }
 
+    private void showImage() {
+        list= FileUtil.getFile(Environment.getExternalStorageDirectory());
+        //path = cameraRender.getFileName();
+        if(list.size()>0){
+            path= list.get(list.size()-1);
+        }
+        Log.e("TAG", path + "");
+        if (path != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            imageView.setImageBitmap(bitmap);
+        } else {
+            //previewImage.setBackground(R.color.gray);
+            //previewImage.setBackgroundColor(R.color.gray);
+        }
+    }
 }

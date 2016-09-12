@@ -152,7 +152,7 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        Log.i(TAG, "onDrawFrame...");
+       // Log.i(TAG, "onDrawFrame...");
         GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         mSurface.updateTexImage();
@@ -198,7 +198,7 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        Log.i(TAG, "onFrameAvailable...");
+       // Log.i(TAG, "onFrameAvailable...");
         glSurfaceView.requestRender();
     }
 
@@ -309,7 +309,7 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         int rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 10000;// 获取5位随机数
 
-        return str + rannum ;// 当前时间
+        return str ;// 当前时间
     }
 
     public void setCapture(boolean mCapture){

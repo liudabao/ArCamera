@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +28,11 @@ import android.widget.Toast;
 
 import com.example.liumin.arcamera.ui.CameraRender;
 import com.example.liumin.arcamera.ui.MySurfaceView;
+import com.example.liumin.arcamera.util.FileUtil;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,6 +45,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     private final int SDK_PERMISSION_REQUEST = 127;
     private String permissionInfo;
     CameraRender cameraRender;
+    private List<String> list=new ArrayList<String>();
 
     private float mPreviousY;//�ϴεĴ���λ��Y����
     private float mPreviousX;//�ϴεĴ���λ��X����
@@ -116,7 +121,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 cameraRender.setCapture(true);
-
+                list.add(cameraRender.getFileName());
+                showImage();
             }
         });
 
@@ -125,7 +131,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             public void onClick(View v) {
                 if (path != null) {
                     Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                    intent.putExtra("PATH", path);
+                    //intent.putExtra("PATH", path);
                     startActivityForResult(intent, 0);
 
                 }
@@ -148,12 +154,17 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             case 0:
                 if (resultCode == RESULT_OK) {
                     Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+                    showImage();
                 }
         }
     }
 
     private void showImage() {
-        path = cameraRender.getFileName();
+        list= FileUtil.getFile(Environment.getExternalStorageDirectory());
+        //path = cameraRender.getFileName();
+        if(list.size()>0){
+            path= list.get(list.size()-1);
+        }
         Log.e("TAG", path + "");
         if (path != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(path);
