@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#ed4333</color>
-    <color name="colorPrimaryDark">#b53125</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorWindow">#B53125</color>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#303030</color>
+    <color name="colorAccent">#424242</color>
+    <color name="colorWindow">#000000</color>
 
     <color name="md_gray_100">#F5F5F5</color>
     <color name="md_gray_200">#EEEEEE</color>

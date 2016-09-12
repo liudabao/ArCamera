@@ -1,5 +1,8 @@
 package com.example.liumin.arcamera;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -8,11 +11,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -31,19 +37,23 @@ public class EditActivity extends Activity {
     private ImageView imageView;
     private ImageButton share;
     private ImageButton delete;
+    private RelativeLayout top;
+    private RelativeLayout bottom;
     //private RecyclerView recyclerView;
     //private LinearLayoutManager linearLayoutManager;
     private String path;
     private List<String> list;
    // private MyAdapter mAdapter;
 
+    private int topHeight;
+    private int bottomHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+       //         WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_edit);
        // path= getIntent().getStringExtra("PATH");
         //initData();
@@ -62,20 +72,46 @@ public class EditActivity extends Activity {
         share=(ImageButton) findViewById(R.id.bottom_btn_share);
         delete=(ImageButton) findViewById(R.id.bottom_btn_delete);
         imageView=(ImageView) findViewById(R.id.picture);
+        top=(RelativeLayout)findViewById(R.id.top);
+        bottom=(RelativeLayout)findViewById(R.id.bottom);
        // recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
        // linearLayoutManager=new LinearLayoutManager(this);
        // linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
        // mAdapter = new MyAdapter(this, list);
-
         showImage();
        // if(path!=null){
        //     Bitmap bitmap= BitmapFactory.decodeFile(path);
        //     imageView.setImageBitmap(bitmap);
        // }
-
        // recyclerView.setLayoutManager(linearLayoutManager);
       //  recyclerView.setAdapter(mAdapter);
+        float density = getResources().getDisplayMetrics().density;
+        topHeight=(int)(top.getHeight()*density + 0.5);
+        bottomHeight=(int)(bottom.getHeight()*density + 0.5);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.e("event", "down");
+                if(top.getVisibility()==View.VISIBLE){
+                    animateClose(top);
+                    animateClose(bottom);
+                    //top.setVisibility(View.GONE);
+                    //bottom.setVisibility(View.GONE);
+                }
+                else {
+                    animateOpen(top, topHeight);
+                    animateOpen(bottom, bottomHeight);
+                    //top.setVisibility(View.VISIBLE);
+                    //bottom.setVisibility(View.VISIBLE);
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     private void initEvent(){
@@ -176,5 +212,39 @@ public class EditActivity extends Activity {
             //previewImage.setBackground(R.color.gray);
             //previewImage.setBackgroundColor(R.color.gray);
         }
+    }
+
+    private void animateOpen(View view, int height){
+        view.setVisibility(View.VISIBLE);
+        ValueAnimator valueAnimator = createAnimator(view, 0 ,height);
+       // valueAnimator.setDuration(1000);
+        valueAnimator.start();
+    }
+
+    private void animateClose(final  View view){
+        int height = view.getHeight();
+        ValueAnimator valueAnimator = createAnimator(view, height, 0);
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setVisibility(View.GONE);
+            }
+        });
+       // valueAnimator.setDuration(1000);
+        valueAnimator.start();
+    }
+
+    private ValueAnimator createAnimator(final  View view, int start, int end){
+        final ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                layoutParams.height =value;
+                view.setLayoutParams(layoutParams);
+            }
+        });
+        return valueAnimator;
     }
 }
