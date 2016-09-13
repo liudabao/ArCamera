@@ -1,6 +1,10 @@
 package com.example.liumin.arcamera;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -22,7 +26,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationSet;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +49,10 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     private MySurfaceView mGLSurfaceView;
     private CircleImageView previewImage;
     private ImageButton capture;
+    private ImageButton arBtn;
+    private TextView openText;
+    private TextView closeText;
+
     private final int SDK_PERMISSION_REQUEST = 127;
     private String permissionInfo;
     CameraRender cameraRender;
@@ -78,7 +89,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
+    private boolean isAr = true;
+    private boolean isSelect = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +110,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
     private void init() {
         //��ʼ��GLSurfaceView
+        arBtn = (ImageButton)findViewById(R.id.btn_ar);
+        openText = (TextView)findViewById(R.id.open);
+        closeText = (TextView) findViewById(R.id.close);
         mGLSurfaceView = (MySurfaceView) findViewById(R.id.mySurfaceView);
         previewImage = (CircleImageView) findViewById(R.id.image_preview);
         capture = (ImageButton) findViewById(R.id.capture);
@@ -138,6 +153,34 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
             }
         });
+
+        arBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(isSelect){
+                    ObjectAnimator objectAnimator = animatorOpen(openText, 80);
+                    ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 0f, 1f);
+                    ObjectAnimator objectAnimator2 = animatorOpen(closeText,160);
+                    ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 0f, 1f);
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+                    animatorSet.setDuration(500).start();
+                    isSelect =false;
+                }
+                else {
+                    ObjectAnimator objectAnimator = animatorClose(openText, -80);
+                    ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 1f, 0f);
+                    ObjectAnimator objectAnimator2 = animatorClose(closeText,-160);
+                    ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 1f, 0f);
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+                    animatorSet.setDuration(500).start();
+                    isSelect =true;
+                }
+            }
+        });
+
         showImage();
         intentFilter = new IntentFilter();
         intentFilter.addAction("com.liu.ar");
@@ -175,6 +218,41 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         }
     }
 
+    private ObjectAnimator animatorOpen(View view,float width){
+        view.setVisibility(View.VISIBLE);
+        return new ObjectAnimator().ofFloat(view, "translationX",arBtn.getWidth(), width);
+               // .setDuration(500);
+
+    }
+
+    private ObjectAnimator animatorClose(final  View view,float width){
+
+        ObjectAnimator objectAnimator= new ObjectAnimator().ofFloat(view, "translationX",  width);
+              //  .setDuration(500);
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        return objectAnimator;
+
+    }
     //�����¼��ص�����
 
     public boolean onTouch(View v, MotionEvent e) {
