@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -40,6 +43,8 @@ public class EditActivity extends Activity {
     private ImageButton delete;
     private RelativeLayout top;
     private RelativeLayout bottom;
+    private LinearLayout edit_layout;
+    private TextView imageName;
     //private RecyclerView recyclerView;
     //private LinearLayoutManager linearLayoutManager;
     private String path;
@@ -48,8 +53,11 @@ public class EditActivity extends Activity {
 
     private float topHeight;
     private float bottomHeight;
-
     private boolean flag=true;
+    private boolean isDelete=true;
+
+    private GestureDetector gestureDetector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +85,8 @@ public class EditActivity extends Activity {
         imageView=(ImageView) findViewById(R.id.picture);
         top=(RelativeLayout)findViewById(R.id.top);
         bottom=(RelativeLayout)findViewById(R.id.bottom);
+        edit_layout=(LinearLayout)findViewById(R.id.edit_layout);
+        imageName=(TextView)findViewById(R.id.imageName);
        // recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
        // linearLayoutManager=new LinearLayoutManager(this);
        // linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -91,40 +101,57 @@ public class EditActivity extends Activity {
         float density = getResources().getDisplayMetrics().density;
         topHeight=(float)(top.getHeight()*density);
         bottomHeight=(float)(bottom.getHeight()*density);
+
+        gestureDetector = new GestureDetector(this, onGestureListener);
+        gestureDetector.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Log.e("event", "double click");
+                if(isDelete){
+                    edit_layout.removeView(top);
+                    edit_layout.removeView(bottom);
+                    isDelete=false;
+                }
+                else {
+                    edit_layout.addView(top);
+                    edit_layout.addView(bottom);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        switch (event.getAction()){
+        /*switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 Log.e("event", "down");
                 if(flag){
-                    //animateClose(top);
-                    //animateClose(bottom);
-                    //top.setVisibility(View.GONE);
-                   // animateDown(bottom);
-                    //animateUp(top, top.getHeight());
                     animateMove(top, -top.getHeight());
                     animateMove(bottom, bottom.getHeight());
                     flag=false;
-                    //bottom.setVisibility(View.GONE);
                 }
                 else {
-                   // animateOpen(top, topHeight);
-                   // animateUp(bottom, bottomHeight);
-                   // animateDown(top);
                     animateMove(top, topHeight);
                     animateMove(bottom, bottomHeight);
                     flag=true;
-                    //animateOpen(bottom, bottomHeight);
-                    //top.setVisibility(View.VISIBLE);
-                    //bottom.setVisibility(View.VISIBLE);
                 }
                 break;
             default:
                 break;
-        }
-        return true;
+        }*/
+        return gestureDetector.onTouchEvent(event);
+       // return super.onTouchEvent(event);
     }
 
     private void initEvent(){
@@ -221,6 +248,8 @@ public class EditActivity extends Activity {
         if (path != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             imageView.setImageBitmap(bitmap);
+            File file=new File(path);
+            imageName.setText(file.getName());
         } else {
             //previewImage.setBackground(R.color.gray);
             //previewImage.setBackgroundColor(R.color.gray);
@@ -275,4 +304,48 @@ public class EditActivity extends Activity {
         });
         return valueAnimator;
     }
+
+    private GestureDetector.OnGestureListener onGestureListener = new GestureDetector.OnGestureListener() {
+        @Override
+        public boolean onDown(MotionEvent e) {
+
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            Log.e("event", "down");
+            if(flag){
+                animateMove(top, -top.getHeight());
+                animateMove(bottom, bottom.getHeight());
+                flag=false;
+            }
+            else {
+                animateMove(top, topHeight);
+                animateMove(bottom, bottomHeight);
+                flag=true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            return false;
+        }
+    };
 }
