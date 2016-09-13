@@ -2,6 +2,7 @@ package com.example.liumin.arcamera;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -45,8 +46,10 @@ public class EditActivity extends Activity {
     private List<String> list;
    // private MyAdapter mAdapter;
 
-    private int topHeight;
-    private int bottomHeight;
+    private float topHeight;
+    private float bottomHeight;
+
+    private boolean flag=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +89,8 @@ public class EditActivity extends Activity {
        // recyclerView.setLayoutManager(linearLayoutManager);
       //  recyclerView.setAdapter(mAdapter);
         float density = getResources().getDisplayMetrics().density;
-        topHeight=(int)(top.getHeight()*density + 0.5);
-        bottomHeight=(int)(bottom.getHeight()*density + 0.5);
+        topHeight=(float)(top.getHeight()*density);
+        bottomHeight=(float)(bottom.getHeight()*density);
     }
 
     @Override
@@ -95,15 +98,25 @@ public class EditActivity extends Activity {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 Log.e("event", "down");
-                if(top.getVisibility()==View.VISIBLE){
-                    animateClose(top);
-                    animateClose(bottom);
+                if(flag){
+                    //animateClose(top);
+                    //animateClose(bottom);
                     //top.setVisibility(View.GONE);
+                   // animateDown(bottom);
+                    //animateUp(top, top.getHeight());
+                    animateMove(top, -top.getHeight());
+                    animateMove(bottom, bottom.getHeight());
+                    flag=false;
                     //bottom.setVisibility(View.GONE);
                 }
                 else {
-                    animateOpen(top, topHeight);
-                    animateOpen(bottom, bottomHeight);
+                   // animateOpen(top, topHeight);
+                   // animateUp(bottom, bottomHeight);
+                   // animateDown(top);
+                    animateMove(top, topHeight);
+                    animateMove(bottom, bottomHeight);
+                    flag=true;
+                    //animateOpen(bottom, bottomHeight);
                     //top.setVisibility(View.VISIBLE);
                     //bottom.setVisibility(View.VISIBLE);
                 }
@@ -214,6 +227,22 @@ public class EditActivity extends Activity {
         }
     }
 
+    private void animateMove(View view, float height){
+        //view.setVisibility(View.VISIBLE);
+        Log.e("animator", "move: "+height);
+        new ObjectAnimator().ofFloat(view, "translationY", height)
+                .setDuration(500)
+                .start();
+    }
+
+   // private void animateDown(View view, float height){
+   //     Log.e("animator", "down");
+   //     new ObjectAnimator().ofFloat(view, "translationY", height)
+   //             .setDuration(1000)
+   //             .start();
+   // }
+
+
     private void animateOpen(View view, int height){
         view.setVisibility(View.VISIBLE);
         ValueAnimator valueAnimator = createAnimator(view, 0 ,height);
@@ -241,7 +270,6 @@ public class EditActivity extends Activity {
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (Integer) valueAnimator.getAnimatedValue();
                 ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-                layoutParams.height =value;
                 view.setLayoutParams(layoutParams);
             }
         });
