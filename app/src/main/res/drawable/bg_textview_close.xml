@@ -4,6 +4,4 @@
 
     <solid android:color= "@android:color/transparent"/>
 
-    <size
-        android:width="24dp"/>
 </shape>

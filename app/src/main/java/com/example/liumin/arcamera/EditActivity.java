@@ -118,8 +118,11 @@ public class EditActivity extends Activity {
                     isDelete=false;
                 }
                 else {
+                    edit_layout.removeView(imageView);
                     edit_layout.addView(top);
+                    edit_layout.addView(imageView);
                     edit_layout.addView(bottom);
+                    isDelete=true;
                 }
                 return false;
             }
@@ -253,6 +256,7 @@ public class EditActivity extends Activity {
         } else {
             //previewImage.setBackground(R.color.gray);
             //previewImage.setBackgroundColor(R.color.gray);
+            imageName.setText("");
         }
     }
 

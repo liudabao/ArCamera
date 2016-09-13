@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationSet;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -234,29 +235,32 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         } else {
             //previewImage.setBackground(R.color.gray);
             //previewImage.setBackgroundColor(R.color.gray);
+            previewImage.setBackgroundResource(R.drawable.bg_imageview_preview);
         }
     }
 
     private void animatorOpen(){
         openText.setVisibility(View.VISIBLE);
         closeText.setVisibility(View.VISIBLE);
-        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(openText, "translationX",arBtn.getWidth(), 80);
+        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(openText, "translationX",arBtn.getWidth(), 160f);
         ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 0f, 1f);
-        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",arBtn.getWidth(), 160);
+        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",arBtn.getWidth(), 320f);
         ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 0f, 1f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+       // animatorSet.setInterpolator(new BounceInterpolator());
         animatorSet.setDuration(500).start();
 
     }
 
     private void animatorClose(){
-        ObjectAnimator objectAnimator =new ObjectAnimator().ofFloat(openText, "translationX",  -80);
+        ObjectAnimator objectAnimator =new ObjectAnimator().ofFloat(openText, "translationX",  160f, 0);
         ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 1f, 0f);
-        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",  -160);
+        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",  320f, 0);
         ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 1f, 0f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+       // animatorSet.setInterpolator(new BounceInterpolator());
         animatorSet.setDuration(500).start();
         objectAnimator.addListener(new Animator.AnimatorListener() {
             @Override
