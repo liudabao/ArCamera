@@ -12,35 +12,42 @@
             android:id="@+id/mySurfaceView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <ImageButton
-            android:id="@+id/btn_ar"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_btn_ar"
-            />
-        <TextView
-            android:id="@+id/open"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:text="打开"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:background="@drawable/bg_textview_open"
-            android:visibility="gone"/>
-        <TextView
-            android:id="@+id/close"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:text="关闭"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:background="@drawable/bg_textview_close"
-            android:visibility="gone"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/btn_ar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/bg_btn_ar_select"
+                />
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="打开"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_textview_open"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/close"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="关闭"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_textview_close"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <RelativeLayout

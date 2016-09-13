@@ -159,25 +159,44 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             public void onClick(View v) {
 
                 if(isSelect){
-                    ObjectAnimator objectAnimator = animatorOpen(openText, 80);
-                    ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 0f, 1f);
-                    ObjectAnimator objectAnimator2 = animatorOpen(closeText,160);
-                    ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 0f, 1f);
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
-                    animatorSet.setDuration(500).start();
+                    animatorOpen();
                     isSelect =false;
                 }
                 else {
-                    ObjectAnimator objectAnimator = animatorClose(openText, -80);
-                    ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 1f, 0f);
-                    ObjectAnimator objectAnimator2 = animatorClose(closeText,-160);
-                    ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 1f, 0f);
-                    AnimatorSet animatorSet = new AnimatorSet();
-                    animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
-                    animatorSet.setDuration(500).start();
+                    animatorClose();
                     isSelect =true;
                 }
+            }
+        });
+
+        openText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!isAr){
+                    arBtn.setBackgroundResource(R.drawable.bg_btn_ar_select);
+                    openText.setBackgroundResource(R.drawable.bg_textview_open);
+                    closeText.setBackgroundResource(R.drawable.bg_textview_close);
+                    isAr=true;
+                    cameraRender.setIsAr(isAr);
+                }
+                animatorClose();
+                isSelect=true;
+            }
+        });
+
+        closeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAr){
+                    arBtn.setBackgroundResource(R.drawable.bg_btn_ar);
+                    openText.setBackgroundResource(R.drawable.bg_textview_close);
+                    closeText.setBackgroundResource(R.drawable.bg_textview_open);
+                    isAr=false;
+                    cameraRender.setIsAr(isAr);
+                }
+                animatorClose();
+                isSelect=true;
             }
         });
 
@@ -218,17 +237,27 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         }
     }
 
-    private ObjectAnimator animatorOpen(View view,float width){
-        view.setVisibility(View.VISIBLE);
-        return new ObjectAnimator().ofFloat(view, "translationX",arBtn.getWidth(), width);
-               // .setDuration(500);
+    private void animatorOpen(){
+        openText.setVisibility(View.VISIBLE);
+        closeText.setVisibility(View.VISIBLE);
+        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(openText, "translationX",arBtn.getWidth(), 80);
+        ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 0f, 1f);
+        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",arBtn.getWidth(), 160);
+        ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 0f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+        animatorSet.setDuration(500).start();
 
     }
 
-    private ObjectAnimator animatorClose(final  View view,float width){
-
-        ObjectAnimator objectAnimator= new ObjectAnimator().ofFloat(view, "translationX",  width);
-              //  .setDuration(500);
+    private void animatorClose(){
+        ObjectAnimator objectAnimator =new ObjectAnimator().ofFloat(openText, "translationX",  -80);
+        ObjectAnimator objectAnimator1 = new ObjectAnimator().ofFloat(openText,"alpha", 1f, 0f);
+        ObjectAnimator objectAnimator2 = new ObjectAnimator().ofFloat(closeText, "translationX",  -160);
+        ObjectAnimator objectAnimator3 = new ObjectAnimator().ofFloat(closeText,"alpha", 1f, 0f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2, objectAnimator3);
+        animatorSet.setDuration(500).start();
         objectAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -237,7 +266,9 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                view.setVisibility(View.GONE);
+
+                openText.setVisibility(View.GONE);
+                closeText.setVisibility(View.GONE);
             }
 
             @Override
@@ -250,7 +281,6 @@ public class MainActivity extends Activity implements View.OnTouchListener {
 
             }
         });
-        return objectAnimator;
 
     }
     //�����¼��ص�����

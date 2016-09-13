@@ -60,6 +60,7 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private int mViewHeight = 0;
 
     private String fileName;
+    private boolean isAr=true;
 
     public CameraRender(MySurfaceView mySurfaceView, Context context){
         glSurfaceView=mySurfaceView;
@@ -82,6 +83,10 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     public void setThreadFlag(boolean flag) {
         this.threadFlag = flag;
+    }
+
+    public void setIsAr(boolean isAr) {
+        this.isAr = isAr;
     }
 
     public String getFileName() {
@@ -159,16 +164,19 @@ public class CameraRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         float[] mtx = new float[16];
         mSurface.getTransformMatrix(mtx);
 
-        //�����ֳ�
-        MatrixState.pushMatrix();
-        //������ת
-        MatrixState.scale(0.5f*scale, 0.5f*scale, 0.5f*scale);
-        MatrixState.transtate(currentX, currentY, 0);
-        MatrixState.rotate(eAngle, 0, 1, 0);
-        //��������Բ��
-        earth.drawSelf(textureIdEarth, textureIdEarthNight);
-        //�ָ��ֳ�
-        MatrixState.popMatrix();
+        if(isAr){
+            //�����ֳ�
+            MatrixState.pushMatrix();
+            //������ת
+            MatrixState.scale(0.5f*scale, 0.5f*scale, 0.5f*scale);
+            MatrixState.transtate(currentX, currentY, 0);
+            MatrixState.rotate(eAngle, 0, 1, 0);
+            //��������Բ��
+            earth.drawSelf(textureIdEarth, textureIdEarthNight);
+            //�ָ��ֳ�
+            MatrixState.popMatrix();
+        }
+
         //
         mDirectDrawer.draw(mtx);
         if(mCapture){
