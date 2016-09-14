@@ -216,7 +216,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         switch (requestCode) {
             case 0:
                 if (resultCode == RESULT_OK) {
-                    Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
                     showImage();
                 }
         }

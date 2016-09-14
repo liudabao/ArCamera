@@ -172,7 +172,7 @@ public class EditActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showShare();
-                Toast.makeText(EditActivity.this, "test", Toast.LENGTH_LONG).show();
+                //Toast.makeText(EditActivity.this, "test", Toast.LENGTH_LONG).show();
             }
         });
 
