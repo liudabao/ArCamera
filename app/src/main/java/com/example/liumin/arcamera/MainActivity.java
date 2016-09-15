@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -93,6 +94,8 @@ public class MainActivity extends Activity implements View.OnTouchListener {
     private boolean isAr = true;
     private boolean isSelect = true;
 
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +107,7 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         setContentView(R.layout.activity_main);
         getPersimmions();
         init();
-
+        initAr();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
     }
@@ -173,31 +176,14 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         openText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!isAr){
-                    arBtn.setBackgroundResource(R.drawable.bg_btn_ar_select);
-                    openText.setBackgroundResource(R.drawable.bg_textview_open);
-                    closeText.setBackgroundResource(R.drawable.bg_textview_close);
-                    isAr=true;
-                    cameraRender.setIsAr(isAr);
-                }
-                animatorClose();
-                isSelect=true;
+                openAr();
             }
         });
 
         closeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isAr){
-                    arBtn.setBackgroundResource(R.drawable.bg_btn_ar);
-                    openText.setBackgroundResource(R.drawable.bg_textview_close);
-                    closeText.setBackgroundResource(R.drawable.bg_textview_open);
-                    isAr=false;
-                    cameraRender.setIsAr(isAr);
-                }
-                animatorClose();
-                isSelect=true;
+                closeAr();
             }
         });
 
@@ -206,6 +192,27 @@ public class MainActivity extends Activity implements View.OnTouchListener {
         intentFilter.addAction("com.liu.ar");
         pictureBroad = new PictureBroad();
         registerReceiver(pictureBroad, intentFilter);
+
+    }
+
+    private void initAr(){
+        String status = readPreference();
+        Log.e("AR", status+"");
+        if(status.equals("true")){
+            isAr = true;
+            arBtn.setBackgroundResource(R.drawable.bg_btn_ar_select);
+            openText.setBackgroundResource(R.drawable.bg_textview_open);
+            closeText.setBackgroundResource(R.drawable.bg_textview_close);
+            cameraRender.setIsAr(isAr);
+        }
+        else if(status.equals("false")){
+            arBtn.setBackgroundResource(R.drawable.bg_btn_ar);
+            openText.setBackgroundResource(R.drawable.bg_textview_close);
+            closeText.setBackgroundResource(R.drawable.bg_textview_open);
+            isAr=false;
+            cameraRender.setIsAr(isAr);
+        }
+
 
     }
 
@@ -237,6 +244,49 @@ public class MainActivity extends Activity implements View.OnTouchListener {
             //previewImage.setBackgroundColor(R.color.gray);
             previewImage.setBackgroundResource(R.drawable.bg_imageview_preview);
         }
+    }
+
+    private void openAr(){
+        if(!isAr){
+            arBtn.setBackgroundResource(R.drawable.bg_btn_ar_select);
+            openText.setBackgroundResource(R.drawable.bg_textview_open);
+            closeText.setBackgroundResource(R.drawable.bg_textview_close);
+            isAr=true;
+            cameraRender.setIsAr(isAr);
+            savePreference(isAr);
+        }
+        animatorClose();
+        isSelect=true;
+    }
+    private void closeAr(){
+        if(isAr){
+            arBtn.setBackgroundResource(R.drawable.bg_btn_ar);
+            openText.setBackgroundResource(R.drawable.bg_textview_close);
+            closeText.setBackgroundResource(R.drawable.bg_textview_open);
+            isAr=false;
+            cameraRender.setIsAr(isAr);
+            savePreference(isAr);
+        }
+        animatorClose();
+        isSelect=true;
+    }
+
+    public void savePreference(boolean status){
+        preferences=getSharedPreferences("data", MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        if(status){
+            editor.putString("AR_STATUS", "true");
+        }
+        else{
+            editor.putString("AR_STATUS", "false");
+        }
+        //editor.putString("frist", s);
+        editor.commit();
+    }
+
+    public String readPreference(){
+        preferences=getSharedPreferences("data", MODE_PRIVATE);
+        return preferences.getString("AR_STATUS","");
     }
 
     private void animatorOpen(){
